@@ -43,6 +43,19 @@ def build_model():
 
 The default fallback model (`EchoGroundTruthModel`) simply echoes the ground-truth `time` field for quick smoke tests.
 
+### Example sleep-and-random model
+For a self-contained demo that matches the requested interface, use `scripts/example_sleep_model.py`:
+
+```bash
+python scripts/run_audio_video_eval.py \
+  --qa-root /data5/fy/omni-reason-ground/qa \
+  --video-root /data5/fy/data/mybenchvideo \
+  --output outputs/demo_sleep_model.jsonl \
+  --model-module scripts/example_sleep_model.py
+```
+
+`build_model()` in that module returns a model that sleeps for three seconds and then outputs a random `00:00–00:30` span formatted as `MM:SS`.
+
 ## Sampling a smaller QA subset
 Use `scripts/sample_qa_subset.py` to create a filtered copy of the QA tree while preserving subdirectories and filenames. For example, to randomly pull three items from each category prefix `1.1`, `1.2`, and `2.1`:
 
