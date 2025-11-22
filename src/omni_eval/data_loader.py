@@ -24,6 +24,16 @@ class QASample:
     metadata: Mapping[str, object]
 
 
+def sample_dedup_key(sample: "QASample") -> str:
+    """Return a stable key for checkpointing.
+
+    Combines the QA filename with the question text so reruns can
+    skip samples already present in an output JSONL file.
+    """
+
+    return f"{sample.qa_path.name}:{sample.question}"
+
+
 def _generate_qid(relative_path: Path, idx: int) -> str:
     return f"{relative_path.as_posix()}#{idx}"
 

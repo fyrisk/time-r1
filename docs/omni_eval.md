@@ -19,6 +19,12 @@ python scripts/run_audio_video_eval.py \
 
 The script writes per-sample predictions to `outputs/omni_eval.jsonl` and a metric summary to `outputs/omni_eval.summary.json`.
 
+### Concurrency
+`--concurrent` (default: off) enables a thread pool for issuing requests in parallel—useful when calling a remote API. Use `--max-workers` to cap the worker count. Local models can keep the default sequential loop.
+
+### Resume / checkpointing
+Results stream to the JSONL file one sample at a time. If you rerun the script, any QA already present in the JSONL (matched by `qa filename + question`) will be skipped, allowing for safe interruption and restart.
+
 ## Plugging in your own model
 Provide a Python file that defines `build_model() -> TemporalLocalizationModel`. The model must implement `predict_timestamps(video_path: str, question: str, qa_sample: dict | None) -> tuple[str | float, str | float]`, returning start and end timestamps either as seconds or `MM:SS` strings. Example stub:
 

@@ -59,6 +59,17 @@ def parse_args() -> argparse.Namespace:
         default=[0.3, 0.5, 0.7],
         help="IoU thresholds for reporting (default: 0.3 0.5 0.7)",
     )
+    parser.add_argument(
+        "--concurrent",
+        action="store_true",
+        help="Enable concurrent inference (useful for API-based models)",
+    )
+    parser.add_argument(
+        "--max-workers",
+        type=int,
+        default=None,
+        help="Optional worker limit when --concurrent is set",
+    )
     return parser.parse_args()
 
 
@@ -70,6 +81,8 @@ def main() -> None:
         output_path=args.output,
         model_module=args.model_module,
         thresholds=args.thresholds,
+        concurrent=args.concurrent,
+        max_workers=args.max_workers,
     )
 
     print("\n==== Evaluation Summary ====")
