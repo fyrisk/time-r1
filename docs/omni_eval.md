@@ -42,3 +42,16 @@ def build_model():
 ```
 
 The default fallback model (`EchoGroundTruthModel`) simply echoes the ground-truth `time` field for quick smoke tests.
+
+## Sampling a smaller QA subset
+Use `scripts/sample_qa_subset.py` to create a filtered copy of the QA tree while preserving subdirectories and filenames. For example, to randomly pull three items from each category prefix `1.1`, `1.2`, and `2.1`:
+
+```bash
+python scripts/sample_qa_subset.py \
+  --qa-root /data5/fy/omni-reason-ground/qa \
+  --output-root /data5/fy/omni-reason-ground/small_qa \
+  --target-codes 1.1 1.2 2.1 \
+  --k 3
+```
+
+Only the selected entries are written to the mirrored location under `--output-root` (e.g., `qa/daily/_-BAFzpKigw_video.json` → `small_qa/daily/_-BAFzpKigw_video.json`). Use `--seed` to make the sampling deterministic.
