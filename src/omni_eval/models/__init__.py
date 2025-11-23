@@ -3,7 +3,9 @@
 __all__ = [
     "SleepyRandomTemporalModel",
     "OpenAIAudioVideoTemporalModel",
+    "GenAIAudioVideoTemporalModel",
 ]
 
 from .example_sleep_model import SleepyRandomTemporalModel
 from .openai_av_model import OpenAIAudioVideoTemporalModel
+from .genai_av_model import GenAIAudioVideoTemporalModel

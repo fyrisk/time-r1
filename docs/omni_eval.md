@@ -72,6 +72,17 @@ python scripts/run_audio_video_eval.py \
   --model-module src/omni_eval/models/openai_av_model.py
 ```
 
+### Example GenAI (Gemini) multimodal model
+`src/omni_eval/models/genai_av_model.py` wires the GenAI SDK into the same interface by feeding the raw MP4 bytes to a Gemini model and parsing `MM:SS` spans. Configure `GEMINI_API_KEY` and optionally `GENAI_AV_MODEL` (default `gemini-2.5-pro`), then run:
+
+```bash
+python scripts/run_audio_video_eval.py \
+  --qa-root /data5/fy/omni-reason-ground/qa \
+  --video-root /data5/fy/data/mybenchvideo \
+  --output outputs/demo_genai_model.jsonl \
+  --model-module src/omni_eval/models/genai_av_model.py
+```
+
 ## Sampling a smaller QA subset
 Use `scripts/sample_qa_subset.py` to create a filtered copy of the QA tree while preserving subdirectories and filenames. For example, to randomly pull three items from each category prefix `1.1`, `1.2`, and `2.1`:
 
