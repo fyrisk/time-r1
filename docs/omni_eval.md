@@ -83,6 +83,18 @@ python scripts/run_audio_video_eval.py \
   --model-module src/omni_eval/models/genai_av_model.py
 ```
 
+### Example local Qwen Omni model
+`src/omni_eval/models/qwen_omni.py` wraps a locally hosted `Qwen2.5-Omni` checkpoint using `qwen_omni_utils.process_mm_info` so audio is passed alongside video. Set `QWEN_OMNI_PATH` (defaults to `/data5/fy/models/cache/Qwen/Qwen2.5-Omni-7B`) and any CUDA visibility you need, then run:
+
+```bash
+export CUDA_VISIBLE_DEVICES=0,1  # adjust as needed
+python scripts/run_audio_video_eval.py \
+  --qa-root /data5/fy/omni-reason-ground/qa \
+  --video-root /data5/fy/data/mybenchvideo \
+  --output outputs/demo_qwen_omni.jsonl \
+  --model-module src/omni_eval/models/qwen_omni.py
+```
+
 ## Sampling a smaller QA subset
 Use `scripts/sample_qa_subset.py` to create a filtered copy of the QA tree while preserving subdirectories and filenames. For example, to randomly pull three items from each category prefix `1.1`, `1.2`, and `2.1`:
 
