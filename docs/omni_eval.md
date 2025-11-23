@@ -44,17 +44,33 @@ def build_model():
 The default fallback model (`EchoGroundTruthModel`) simply echoes the ground-truth `time` field for quick smoke tests.
 
 ### Example sleep-and-random model
-For a self-contained demo that matches the requested interface, use `scripts/example_sleep_model.py`:
+For a self-contained demo that matches the requested interface, use `src/omni_eval/models/example_sleep_model.py`:
 
 ```bash
 python scripts/run_audio_video_eval.py \
   --qa-root /data5/fy/omni-reason-ground/qa \
   --video-root /data5/fy/data/mybenchvideo \
   --output outputs/demo_sleep_model.jsonl \
-  --model-module scripts/example_sleep_model.py
+  --model-module src/omni_eval/models/example_sleep_model.py
 ```
 
 `build_model()` in that module returns a model that sleeps for three seconds and then outputs a random `00:00–00:30` span formatted as `MM:SS`.
+
+### Example OpenAI multimodal model
+`src/omni_eval/models/openai_av_model.py` shows how to wrap the OpenAI SDK for combined audio/video reasoning. It:
+- Extracts JPEG frames and full-length 16kHz mono audio from each MP4.
+- Sends the frames, audio, and question to a chat completion request.
+- Parses the first two `MM:SS` timestamps in the reply as the prediction.
+
+Usage (configure `BASE_URL`, `API_KEY`, and optionally `OPENAI_AV_MODEL` in your environment):
+
+```bash
+python scripts/run_audio_video_eval.py \
+  --qa-root /data5/fy/omni-reason-ground/qa \
+  --video-root /data5/fy/data/mybenchvideo \
+  --output outputs/demo_openai_model.jsonl \
+  --model-module src/omni_eval/models/openai_av_model.py
+```
 
 ## Sampling a smaller QA subset
 Use `scripts/sample_qa_subset.py` to create a filtered copy of the QA tree while preserving subdirectories and filenames. For example, to randomly pull three items from each category prefix `1.1`, `1.2`, and `2.1`:
